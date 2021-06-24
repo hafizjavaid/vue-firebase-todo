@@ -1,16 +1,23 @@
 <template>
-  <div
-    class="Main"
-    v-bind:style="{ backgroundImage: 'url(' + image + ')' }"
-  ></div>
+  <div class="Main" v-bind:style="{ backgroundImage: 'url(' + image + ')' }">
+    <Todos />
+    <EditTodo />
+  </div>
 </template>
 
 <script>
+import Todos from "./Todos.vue";
+import EditTodo from "./EditTodo.vue";
+
 export default {
   data() {
     return {
       image: require("./bg.jpg"),
     };
+  },
+  components: {
+    Todos,
+    EditTodo
   },
 };
 </script>

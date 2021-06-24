@@ -2,7 +2,7 @@
   <div>
     <form onSubmit="{handleSubmit}" class="TodoForm">
       <div class="text">
-        <h3>{{ heading }}</h3>
+        <h3>{{ heading != "" ? heading : "" }}</h3>
 
         <input
           type="text"
@@ -26,7 +26,6 @@
       </div>
       <div class="pick-time">
         <div class="title">
-         
           <b-icon icon="clock" />
           <p>Choose time</p>
         </div>
@@ -39,9 +38,9 @@
         ></datetime>
       </div>
       <div class="pick-project">
-          <Title>
-                    <p>Choose a project</p>
-                </Title>
+        <Title>
+          <p>Choose a project</p>
+        </Title>
         <div class="projects">
           <!-- Projects -->
           <div
@@ -61,11 +60,17 @@
       </div>
 
       <div>
-        <div class="cancel" @click="closeModal">
+        <div
+          v-if="!selectedTodo"
+          class="cancel"
+          @click="closeModal"
+        >
           <b-icon icon="x" />
         </div>
         <div class="confirm" @click="addTodo">
-          <button>+ Add to do</button>
+          <button>
+            {{ selectedTodo ? "+ Edit to do" : "+ Add to do" }}
+          </button>
         </div>
       </div>
     </form>
@@ -83,9 +88,9 @@ export default {
   components: {
     BIcon,
     Datetime,
-    Title
+    Title,
   },
-  props: ["projects", "todoProject", "heading"],
+  props: ["projects", "todoProject", "heading", 'selectedTodo'],
   methods: {
     closeModal() {
       this.$emit("toggleModal");
@@ -112,6 +117,13 @@ export default {
   },
   mounted() {
     this.$refs.focusMe.focus();
+    if (this.selectedTodo) {
+      this.text = this.selectedTodo.text;
+      // this.date = moment(this.selectedTodo.date, "MM/DD/YYYY");
+      // this.time = moment(this.selectedTodo.time, "hh:mm A");
+      console.log(this.time, this.date);
+      this.projectName = this.selectedTodo.projectName;
+    }
   },
   created() {
     this.selectedProject = this.todoProject;

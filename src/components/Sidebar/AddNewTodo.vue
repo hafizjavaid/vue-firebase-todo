@@ -9,6 +9,7 @@
         :projects="this.$store.state.projects"
         :todoProject="this.$store.state.selectedProject"
         heading='Add new to do!'
+        :selectedTodo="undefined"
       />
     </Modal>
   </div>

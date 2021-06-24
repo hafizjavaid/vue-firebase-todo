@@ -20,16 +20,13 @@
         </span>
       </div>
     </div>
-    <div class="items">
-      <div
-        class="Project"
-        v-for="project in projects"
-        :key="project.id"
-        
-      >
-        <div class="name"
-        :class="{ active: todoProject === project.name }"
-         @click="editSelectedProject(project.name)">
+    <div class="items" v-if="showMenu">
+      <div class="Project" v-for="project in projects" :key="project.id">
+        <div
+          class="name"
+          :class="{ active: todoProject === project.name }"
+          @click="editSelectedProject(project.name)"
+        >
           {{ project.name }}
         </div>
         <div class="btns">
@@ -42,7 +39,8 @@
             </span>
           </div>
           <div v-else-if="project.numberOfTodos > 0" class="total-todos">
-              {{ project.numberOfTodos }}</div>
+            {{ project.numberOfTodos }}
+          </div>
         </div>
       </div>
     </div>
@@ -59,7 +57,7 @@ export default {
   components: {
     Title,
     BIcon,
-    AddNewProject
+    AddNewProject,
   },
   props: ["projects", "todoProject"],
   data() {
@@ -67,6 +65,11 @@ export default {
       showMenu: false,
       edit: false,
     };
+  },
+  methods: {
+    editSelectedProject(project) {
+      this.$store.commit("editSelectedProject", project);
+    },
   },
 };
 </script>
@@ -126,8 +129,8 @@ export default {
 .Project .name {
   cursor: pointer;
   word-break: break-all;
-  &.active{
-      color: #0265c8;
+  &.active {
+    color: #0265c8;
   }
 }
 .Project .btns {
